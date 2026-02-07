@@ -12,19 +12,25 @@ Porém foi adicionado funcionalidades conforme as outras páginas
 		<title>Exemplo 2.1</title>
 	</head>
 	<body>
-		<img src="balança.jpg" alt="imagem de uma balaça">
-		<h1>Programa de Cálculo de peso ideal</h1>
+		<h1 class="Titulo">Cáculo de financiamento</h1>
 		<p>
-			Nome: <input type="text" id="inNome">
+			Para cáclulo de financiamento, sempre existem 4 variaveis.</br>
+			Sempre funciona assim: Você informa o valor de 3 variaveis e a calculadora mostra o valor da variavel que você não informou.
+			Como são 4 variaveis e você informa 3, então sempre, uma variavel tem que ficar em branco pra funcionar.
 		</p>
 		<p>
-			Sexo: 
-			<input type="radio" name="sexo" id="rbMasculino"> Masculino
-			<input type="radio" name="sexo" id="rbFeminino"> Feminino
+			Numero de meses: <input type="text" id="inMeses">
 		</p>
 		<p>
-			Altura: <input type="text" id="inAltura">
+			Taxa de juros mensal em %: <input type="text" id="inJuros">
 		</p>
+		<p>
+			Valor da parcela: <input type="text" id="inParcela">
+		</p>
+		<p>
+			Valor total financiado: <input type="text" id="inFinanciado">
+		</p>
+
 		<p>
 			<input type="button" value="Calcular" id="btCalcular">
 			<input type="button" value="Limpar" id="btLimpar">

@@ -1,64 +1,112 @@
+function f(j, n) {
+	return (j * Math.pow((1 + j), n)) / (Math.pow((1 + j), n) - 1);
+}
+
 function calcular(){
 	//Pegando elementos do HTML
-	var inNome = document.getElementById("inNome");
-	var rbMasculino = document.getElementById("rbMasculino");
-	var rbFeminino = document.getElementById("rbFeminino");
-	var inAltura = document.getElementById("inAltura");
+	var inMeses = document.getElementById("inMeses");
+	var inJuros = document.getElementById("inJuros");
+	var inParcela = document.getElementById("inParcela");
+	var inFinanciado = document.getElementById("inFinanciado");
 	var outResposta = document.getElementById("outResposta");
 
 	//carregando variáveis
-	var nome = inNome.value.trim();
-	var isMasculino = rbMasculino.checked;
-	var isFeminino = rbFeminino.checked;
-	var altura = Number(inAltura.value);
+	var meses = Number(inMeses.value.replace(",", "."));
+	var juros = Number(inJuros.value.replace(",", ".")) / 100;
+	var parcela = Number(inParcela.value.replace(",", "."));
+	var financiado = Number(inFinanciado.value.replace(",", "."));
+	var contagemVar = 0;
+	var fator;
 
-	if (nome == "") {
-		alert("Preencha seu nome");
-		inNome.focus();
+	if (isNaN(meses)) {
+		alert("O numero de meses é um valor inválido");
+		return;
+	}
+	if (isNaN(juros)) {
+		alert("O valor do juros é um valor inválido");
+		return;
+	}
+	if (isNaN(parcela)) {
+		alert("O valor da parcela é um valor inválido");
+		return;
+	}
+	if (isNaN(financiado)) {
+		alert("O valor do total financiado é um valor inválido");
 		return;
 	}
 
-	if (isMasculino == false && isFeminino == false) {
-		alert("Informe seu sexo");
+	// conta quantas variaveis estão zeradas
+	contagemVar += meses != 0 ? 1 : 0;
+	contagemVar += juros != 0 ? 1 : 0;
+	contagemVar += parcela != 0 ? 1 : 0;
+	contagemVar += financiado != 0 ? 1 : 0;
+	if (contagemVar != 3) {
+		alert("Apenas uma variavel deve estar vazia");
 		return;
 	}
 
-	if (altura == 0 || isNaN(altura)) {
-		alert("Informe sua altura");
-		inAltura.focus();
+	if (!Number.isInteger(meses)) {
+		alert("O numero de meses precisa ser um numero inteiro");
 		return;
 	}
 
-	if (isMasculino) {
-		var peso = 22 * Math.pow(altura, 2);
+	if (meses != 0 && juros != 0) {
+		fator = f(juros, meses);
 	} else {
-		var peso = 21 * Math.pow(altura, 2);
+		fator = parcela / financiado;
 	}
 
-	outResposta.textContent = nome + ": Seu peso ideal é " + peso.toFixed(3) + " Kg";
+	if (meses == 0) {
+		fator = parcela / financiado;
+		for(var i = 0; i <= 100; i++){
+			meses = Math.log((juros * Math.pow((1 + juros), meses) + fator) / fator) / Math.log(1 + juros); // Fixed-Point Iteration
+		}
+		if (meses.toFixed(8) != meses.toFixed(0)){
+			alert("Atenção. O numero de parcelas calculadas não é um numero inteiro");
+		}
+		inMeses.value = meses.toFixed(4)
+	} else if (juros == 0) {
+		juros = 1;
+		fator = parcela / financiado;
+		for (var i = 0; i <= 100; i++){
+			juros = fator * juros / f(juros, meses); // Fixed-Point Iteration
+		}
+		inJuros.value = (100 * juros).toFixed(4) + "%";
+		return;
+	} else if (parcela == 0) {
+		parcela = financiado * fator;
+		inParcela.value = parcela.toFixed(2);
+		return;
+	} else {
+		financiado = parcela / fator;
+		inFinanciado.value = financiado.toFixed(2);
+		return;
+	}
 	return;
 }
 
 function limpar() {
 	//Pegando elementos do HTML
-	var inNome = document.getElementById("inNome");
-	var rbMasculino = document.getElementById("rbMasculino");
-	var rbFeminino = document.getElementById("rbFeminino");
-	var inAltura = document.getElementById("inAltura");
+	var inMeses = document.getElementById("inMeses");
+	var inJuros = document.getElementById("inJuros");
+	var inParcela = document.getElementById("inParcela");
+	var inFinanciado = document.getElementById("inFinanciado");
 	var outResposta = document.getElementById("outResposta");
 
-	inNome.value = "";
-	rbMasculino.checked = false;
-	rbFeminino.checked = false;
-	inAltura.value = "";
+	// limpando variaveis
+	inMeses.value = "";
+	inJuros.value = "";
+	inParcela.value = "";
+	inFinanciado.value = "";
 	outResposta.textContent = "";
-	inNome.focus();
 
+	inMeses.focus();
 	return;
 }
 
+// main do programa
 var btCalcular = document.getElementById("btCalcular");
 btCalcular.addEventListener("click", calcular);
 
 var btLimpar = document.getElementById("btLimpar");
-btLimpar.addEventListener("click", limpar)
+btLimpar.addEventListener("click", limpar);
