@@ -17,6 +17,7 @@ function calcular(){
 	var financiado = Number(inFinanciado.value.replace(",", "."));
 	var contagemVar = 0;
 	var fator;
+	var limitParcela = 10000; // limite maximo de parcela
 
 	if (isNaN(meses)) {
 		alert("O numero de meses é um valor inválido");
@@ -58,30 +59,53 @@ function calcular(){
 
 	if (meses == 0) {
 		fator = parcela / financiado;
-		for(var i = 0; i <= 100; i++){
+		var aux = 1;
+		if (parcela <= juros * financiado){
+			alert("O valor da parcela é menor que o juros, portanto a divida NUNCA será paga");
+			inMeses.value = "INFINITO";
+			return;
+		}
+		while (Math.abs(aux - meses) > 0.000001 && meses < limitParcela){
+			aux = meses;
 			meses = Math.log((juros * Math.pow((1 + juros), meses) + fator) / fator) / Math.log(1 + juros); // Fixed-Point Iteration
 		}
-		if (meses.toFixed(8) != meses.toFixed(0)){
+
+		if (meses.toFixed(4) != meses.toFixed(0)){
 			alert("Atenção. O numero de parcelas calculadas não é um numero inteiro");
 		}
-		inMeses.value = meses.toFixed(4)
+
+		if (limitParcela <= meses){
+			inMeses.value = "Valor acima do permitido";
+			return;
+
+		}
+
+		inMeses.value = meses.toFixed(4);
+		return;
+
 	} else if (juros == 0) {
 		juros = 1;
 		fator = parcela / financiado;
-		for (var i = 0; i <= 100; i++){
+		var aux = 0;
+		while (Math.abs(aux - juros) > 0.000001){
+			aux = juros;
 			juros = fator * juros / f(juros, meses); // Fixed-Point Iteration
 		}
-		inJuros.value = (100 * juros).toFixed(4) + "%";
+		inJuros.value = (100 * juros).toFixed(4);
 		return;
+
 	} else if (parcela == 0) {
 		parcela = financiado * fator;
 		inParcela.value = parcela.toFixed(2);
 		return;
+
 	} else {
 		financiado = parcela / fator;
 		inFinanciado.value = financiado.toFixed(2);
 		return;
+
 	}
+
 	return;
 }
 
