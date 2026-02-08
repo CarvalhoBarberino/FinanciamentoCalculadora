@@ -1,8 +1,38 @@
-img {
-	float: left;
-	height: 300px;
-	width: 300px;
+.Titulo{
+	text-align: center;
 }
+
+#instrucoes{
+	width: 600px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 h1 {
 	border-bottom-style: inset;
+}
+
+form {
+	max-width: 500px;
+	margin: 10px auto;
+}
+
+.campo {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+label {
+	text-align: right;
+	width: 260px;
+}
+
+input[type="text"] {
+	width: 160px;
+}
+
+input[type="button"] {
+	align-items: center;
+	width: 160px;
 }

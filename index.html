@@ -4,40 +4,55 @@ Porém foi adicionado funcionalidades conforme as outras páginas
 -->
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=2.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<link rel="stylesheet" href="estilos.css">
-		<title>Exemplo 2.1</title>
-	</head>
-	<body>
-		<h1 class="Titulo">Cáculo de financiamento</h1>
-		<p>
-			Para cáclulo de financiamento, sempre existem 4 variaveis.</br>
-			Sempre funciona assim: Você informa o valor de 3 variaveis e a calculadora mostra o valor da variavel que você não informou.
-			Como são 4 variaveis e você informa 3, então sempre, uma variavel tem que ficar em branco pra funcionar.
-		</p>
-		<p>
-			Numero de meses: <input type="text" id="inMeses">
-		</p>
-		<p>
-			Taxa de juros mensal em %: <input type="text" id="inJuros">
-		</p>
-		<p>
-			Valor da parcela: <input type="text" id="inParcela">
-		</p>
-		<p>
-			Valor total financiado: <input type="text" id="inFinanciado">
-		</p>
 
-		<p>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=2.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="estilos.css">
+	<title>Exemplo 2.1</title>
+</head>
+
+<body>
+	<h1 class="Titulo">Cáculo de financiamento</h1>
+	<p id="instrucoes">
+		Para cáclulo de financiamento, sempre existem 4 variaveis.</br>
+		Sempre funciona assim: Você informa o valor de 3 variaveis e a calculadora mostra o valor da variavel que você
+		não informou.
+		Como são 4 variaveis e você informa 3, então sempre, uma variavel tem que ficar em branco pra funcionar.
+	</p>
+	<form id="formFinanciamento">
+
+		<div class="campo">
+			<label for="inMeses">Número de meses:</label>
+			<input type="text" id="inMeses">
+		</div>
+
+		<div class="campo">
+			<label for="inJuros">Taxa de juros mensal (%):</label>
+			<input type="text" id="inJuros">
+		</div>
+
+		<div class="campo">
+			<label for="inParcela">Valor da parcela:</label>
+			<input type="text" id="inParcela">
+		</div>
+
+		<div class="campo">
+			<label for="inFinanciado">Valor total financiado:</label>
+			<input type="text" id="inFinanciado">
+		</div>
+
+		<div class="botoes">
 			<input type="button" value="Calcular" id="btCalcular">
 			<input type="button" value="Limpar" id="btLimpar">
-		</p>
-		<h3 id="outResposta">
+		</div>
 
-		</h3>
-		<script src="funcoes.js"></script>
-	</body>
+	</form>
+	<h3 id="outResposta">
+
+	</h3>
+	<script src="funcoes.js"></script>
+</body>
+
 </html>
