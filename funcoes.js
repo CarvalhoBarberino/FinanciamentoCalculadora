@@ -81,7 +81,6 @@ function calcular(){
 		}
 
 		inMeses.value = meses.toFixed(4);
-		return;
 
 	} else if (juros == 0) {
 		juros = 1;
@@ -92,20 +91,29 @@ function calcular(){
 			juros = fator * juros / f(juros, meses); // Fixed-Point Iteration
 		}
 		inJuros.value = (100 * juros).toFixed(4);
-		return;
 
 	} else if (parcela == 0) {
 		parcela = financiado * fator;
 		inParcela.value = parcela.toFixed(2);
-		return;
 
 	} else {
 		financiado = parcela / fator;
 		inFinanciado.value = financiado.toFixed(2);
-		return;
 
 	}
 
+	var evolucao = "MES......        SALDO        +        JUROS        -        PARCELA        =        SALDO\n\n\n";
+	var saldo0 = financiado;
+	var saldo1;
+	var iTex = 1;
+	evolucao += "mes 0......    " + financiado.toFixed(4) + "\n";
+	for (iTex = 1; iTex <= meses; iTex++){
+		saldo1 = saldo0 * (1 + juros) - parcela;
+		evolucao += "mes " + iTex.toFixed(0) + "......    " + saldo0.toFixed(4) + "    +    " + (saldo0 * juros).toFixed(4) + "    -    " + parcela.toFixed(4)  + "    =    " + saldo1.toFixed(4) + "\n";
+		saldo0 = saldo1;
+	}
+	outResposta.textContent = evolucao;
+	
 	return;
 }
 
